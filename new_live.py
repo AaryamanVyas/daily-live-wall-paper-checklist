@@ -13,9 +13,17 @@ def weeks_since_birth(birthdate):
 # Function to create the life weeks image
 def create_life_image(birthdate, output_path):
     weeks_passed = weeks_since_birth(birthdate)
-    img_width = 800
-    img_height = 1600
-    cell_size = 15
+    
+    # Get screen resolution
+    user32 = ctypes.windll.user32
+    screen_width = user32.GetSystemMetrics(0)
+    screen_height = user32.GetSystemMetrics(1)
+    
+    # Calculate cell size based on screen resolution
+    cell_size = min(screen_width // 52, screen_height // 100)
+    
+    img_width = cell_size * 52
+    img_height = cell_size * 100
 
     img = Image.new('RGB', (img_width, img_height), color='white')
     draw = ImageDraw.Draw(img)
