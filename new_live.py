@@ -1,5 +1,8 @@
 import tkinter as tk
 from datetime import datetime, timedelta
+import win32api
+import win32con
+import win32gui
 
 # Function to calculate the number of weeks since the birthdate
 def weeks_since_birth(birthdate):
@@ -29,7 +32,7 @@ def update_grid(root, birthdate):
     create_life_grid(root, weeks_passed)
     root.after(86400000, update_grid, root, birthdate)  # Update every day (86400000 ms)
 
-# Main function to set up the GUI
+# Main function to set up the GUI and set as wallpaper
 def main():
     birthdate = input("Enter your birthdate (YYYY-MM-DD): ")
 
@@ -37,6 +40,12 @@ def main():
     root = tk.Tk()
     root.title("Your Life in Weeks")
     root.geometry("800x800")
+
+    # Set the window as a desktop widget
+    hwnd = root.winfo_id()
+    win32gui.SetParent(hwnd, win32gui.FindWindow("Progman", None))
+    win32gui.SetWindowLong(hwnd, win32con.GWL_STYLE, win32con.WS_CHILD | win32con.WS_VISIBLE)
+    win32gui.SetWindowPos(hwnd, win32con.HWND_TOPMOST, 0, 0, 0, 0, win32con.SWP_NOMOVE | win32con.SWP_NOSIZE)
 
     # Initial grid creation
     update_grid(root, birthdate)
