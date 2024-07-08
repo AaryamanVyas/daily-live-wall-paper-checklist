@@ -1,8 +1,7 @@
-import tkinter as tk
-from datetime import datetime, timedelta
-import win32api
-import win32con
-import win32gui
+import os
+from datetime import datetime
+from PIL import Image, ImageDraw
+import ctypes
 
 # Function to calculate the number of weeks since the birthdate
 def weeks_since_birth(birthdate):
@@ -11,47 +10,38 @@ def weeks_since_birth(birthdate):
     delta = current_date - birth_date
     return delta.days // 7
 
-# Function to create the grid and update it
-def create_life_grid(root, weeks_passed):
+# Function to create the life weeks image
+def create_life_image(birthdate, output_path):
+    weeks_passed = weeks_since_birth(birthdate)
+    img_width = 800
+    img_height = 1600
+    cell_size = 15
+
+    img = Image.new('RGB', (img_width, img_height), color='white')
+    draw = ImageDraw.Draw(img)
+
     for year in range(100):
         for week in range(52):
+            x0 = week * cell_size
+            y0 = year * cell_size
+            x1 = x0 + cell_size
+            y1 = y0 + cell_size
             color = "green" if (year * 52 + week) < weeks_passed else "white"
-            frame = tk.Frame(
-                master=root,
-                relief=tk.RAISED,
-                borderwidth=1,
-                width=10,
-                height=10,
-                bg=color
-            )
-            frame.grid(row=year, column=week)
+            draw.rectangle([x0, y0, x1, y1], fill=color, outline="black")
 
-# Function to update the grid regularly
-def update_grid(root, birthdate):
-    weeks_passed = weeks_since_birth(birthdate)
-    create_life_grid(root, weeks_passed)
-    root.after(86400000, update_grid, root, birthdate)  # Update every day (86400000 ms)
+    img.save(output_path)
 
-# Main function to set up the GUI and set as wallpaper
+# Function to set the image as wallpaper
+def set_wallpaper(image_path):
+    ctypes.windll.user32.SystemParametersInfoW(20, 0, image_path, 3)
+
+# Main function to generate the image and set it as wallpaper
 def main():
     birthdate = input("Enter your birthdate (YYYY-MM-DD): ")
+    output_path = os.path.join(os.getcwd(), 'life_in_weeks_wallpaper.bmp')
 
-    # Set up the Tkinter window
-    root = tk.Tk()
-    root.title("Your Life in Weeks")
-    root.geometry("800x800")
-
-    # Set the window as a desktop widget
-    hwnd = root.winfo_id()
-    win32gui.SetParent(hwnd, win32gui.FindWindow("Progman", None))
-    win32gui.SetWindowLong(hwnd, win32con.GWL_STYLE, win32con.WS_CHILD | win32con.WS_VISIBLE)
-    win32gui.SetWindowPos(hwnd, win32con.HWND_TOPMOST, 0, 0, 0, 0, win32con.SWP_NOMOVE | win32con.SWP_NOSIZE)
-
-    # Initial grid creation
-    update_grid(root, birthdate)
-
-    # Run the Tkinter event loop
-    root.mainloop()
+    create_life_image(birthdate, output_path)
+    set_wallpaper(output_path)
 
 if __name__ == "__main__":
     main()
