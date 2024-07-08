@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Grid Wallpaper Generator</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <h1>Grid Wallpaper Generator</h1>
+    <canvas id="wallpaperCanvas" width="1050" height="600"></canvas>
+    <br>
+    <label for="daysInput">Enter the number of days passed:</label>
+    <input type="number" id="daysInput" value="3000">
+    <button onclick="generateWallpaper()">Generate Wallpaper</button>
+
+    <script>
+        const canvas = document.getElementById('wallpaperCanvas');
+        const ctx = canvas.getContext('2d');
+
+        const NUM_COLUMNS = 105;
+        const NUM_ROWS = 60;
+        const BOXES_PER_ROW = 6345 // 6,345 boxes divided into columns and rows
+        const BOX_SIZE = 10;
+        const MARGIN = 2;
+        const COLUMN_MARGIN = 5;
+        const ROW_MARGIN = 5;
+
+        function generateWallpaper() {
+            const daysInput = document.getElementById('daysInput');
+            const daysPassed = parseInt(daysInput.value);
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (let col = 0; col < NUM_COLUMNS; col++) {
+                const colOffset = col * (BOX_SIZE + MARGIN + COLUMN_MARGIN);
+                for (let row = 0; row < NUM_ROWS; row++) {
+                    const rowOffset = row * (BOX_SIZE + MARGIN + ROW_MARGIN);
+                    for (let i = 0; i < BOXES_PER_ROW; i++) {
+                        const boxNumber = col * (NUM_ROWS * BOXES_PER_ROW) + row * BOXES_PER_ROW + i;
+                        if (boxNumber < daysPassed) {
+                            ctx.fillStyle = 'blue';
+                        } else {
+                            ctx.fillStyle = 'lightgray';
+                        }
+                        const topLeft = [colOffset + i * (BOX_SIZE + MARGIN), rowOffset];
+                        const bottomRight = [topLeft[0] + BOX_SIZE, topLeft[1] + BOX_SIZE];
+                        ctx.fillRect(topLeft[0], topLeft[1], BOX_SIZE, BOX_SIZE);
+                        ctx.strokeRect(topLeft[0], topLeft[1], BOX_SIZE, BOX_SIZE);
+                    }
+                }
+            }
+        }
+
+        generateWallpaper();
+    </script>
+</body>
+</html>
