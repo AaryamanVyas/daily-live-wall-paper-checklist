@@ -1,6 +1,5 @@
 import tkinter as tk
 from datetime import datetime, timedelta
-import math
 
 # Function to calculate the number of weeks since the birthdate
 def weeks_since_birth(birthdate):
@@ -24,20 +23,23 @@ def create_life_grid(root, weeks_passed):
             )
             frame.grid(row=year, column=week)
 
+# Function to update the grid regularly
+def update_grid(root, birthdate):
+    weeks_passed = weeks_since_birth(birthdate)
+    create_life_grid(root, weeks_passed)
+    root.after(86400000, update_grid, root, birthdate)  # Update every day (86400000 ms)
+
 # Main function to set up the GUI
 def main():
     birthdate = input("Enter your birthdate (YYYY-MM-DD): ")
-
-    # Calculate the number of weeks that have passed since the birthdate
-    weeks_passed = weeks_since_birth(birthdate)
 
     # Set up the Tkinter window
     root = tk.Tk()
     root.title("Your Life in Weeks")
     root.geometry("800x800")
 
-    # Create the grid and update it
-    create_life_grid(root, weeks_passed)
+    # Initial grid creation
+    update_grid(root, birthdate)
 
     # Run the Tkinter event loop
     root.mainloop()
