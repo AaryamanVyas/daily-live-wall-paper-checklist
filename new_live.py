@@ -1,5 +1,6 @@
 import os
-from datetime import datetime
+import time
+from datetime import datetime, timedelta
 from PIL import Image, ImageDraw, ImageFont
 import ctypes
 
@@ -16,8 +17,8 @@ def create_life_image(birthdate, output_path):
 
     # Get screen resolution
     user32 = ctypes.windll.user32
-    screen_width = 1920
-    screen_height = 1080
+    screen_width = user32.GetSystemMetrics(0)
+    screen_height = user32.GetSystemMetrics(1)
 
     # Calculate the cell size to fit the desired image size
     cell_size = min(screen_width // 365, screen_height // 100)
@@ -64,8 +65,11 @@ def main():
     birthdate = "2006-01-11"
     output_path = os.path.join(os.getcwd(), 'life_in_days_wallpaper.bmp')
 
-    create_life_image(birthdate, output_path)
-    set_wallpaper(output_path)
+    while True:
+        create_life_image(birthdate, output_path)
+        set_wallpaper(output_path)
+        # Sleep for 24 hours (86400 seconds)
+        time.sleep(86400)
 
 if __name__ == "__main__":
     main()
