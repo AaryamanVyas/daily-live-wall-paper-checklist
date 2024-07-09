@@ -1,61 +1,87 @@
-Live Wallpaper with Daily Updates
+This project serves as a unique and constant reminder of the passage of time, encouraging mindfulness and reflection on how you spend your days.
 
-This project is a Python script that creates a dynamic live wallpaper for your laptop. The wallpaper updates daily, displaying a grid of 21,915 boxes where each box represents a day. The script automatically marks a box as checked each day.
+## Features
 
-### Features
+- **Dynamic Daily Update**: The wallpaper is updated every day to reflect the current number of days since your birthdate.
+- **Visual Representation**: Each day is represented by a small cell, with past days colored red and future days colored green.
+- **Customizable Birthdate**: Easily set your birthdate to personalize the wallpaper.
+- **Automatic Wallpaper Setting**: The script automatically sets the generated image as your desktop wallpaper.
 
-- **Daily Updates**: The wallpaper updates itself every day at midnight.
-- **Grid Display**: Displays a grid of 21,915 boxes, each representing a day.
-- **Auto-Check**: Automatically marks a box as checked based on the number of days passed since a specified start date.
-
-### Requirements
+## Requirements
 
 - Python 3.x
-- [Pillow](https://python-pillow.org/)
-- [Schedule](https://schedule.readthedocs.io/)
+- Pillow library (Python Imaging Library fork)
+- Windows OS (for wallpaper setting functionality)
 
-### Installation
+## Installation
 
 1. **Clone the Repository**:
-    ```sh
-    git clone https://github.com/your-username/live-wallpaper-daily-updates.git
-    cd live-wallpaper-daily-updates
+    ```bash
+    git clone https://github.com/yourusername/your-life-in-days-wallpaper.git
+    cd your-life-in-days-wallpaper
     ```
 
 2. **Install the Required Libraries**:
-    ```sh
-    pip install pillow schedule
+    ```bash
+    pip install -r requirements.txt
     ```
 
-### Usage
+## Usage
 
-1. **Edit the Script**:
-    - Open `live_wallpaper.py` and modify the `start_date` variable in the `update_wallpaper` function to your desired start date.
+1. **Set Your Birthdate**: 
+    Edit the `main` function in the `life_in_days_wallpaper.py` script to set your birthdate.
+    ```python
+    birthdate = "2006-01-11"  # Replace with your actual birthdate
+    ```
 
 2. **Run the Script**:
-    ```sh
-    python live_wallpaper.py
+    ```bash
+    python life_in_days_wallpaper.py
     ```
 
-The script will:
-- Generate an image with a grid of boxes.
-- Update the image daily, marking the appropriate boxes as checked.
-- Set the updated image as your desktop wallpaper.
+The script will generate an image representing your life in days and set it as your desktop wallpaper. It will update the wallpaper every 24 hours.
 
-### Project Structure
+## Contributing
 
-```plaintext
-live-wallpaper-daily-updates/
-│
-├── live_wallpaper.py    # Main script for generating and updating the wallpaper
-└── README.md            # Project description and instructions
-```
+Contributions are welcome! If you have any ideas, suggestions, or bug reports, please open an issue or create a pull request.
 
-### Contributing
+1. **Fork the Repository**:
+    Click the "Fork" button at the top right of this page.
 
-Contributions are welcome! Feel free to open an issue or submit a pull request.
+2. **Clone Your Fork**:
+    ```bash
+    git clone https://github.com/yourusername/your-life-in-days-wallpaper.git
+    cd your-life-in-days-wallpaper
+    ```
 
-### License
+3. **Create a Branch**:
+    ```bash
+    git checkout -b feature-or-fix-name
+    ```
+
+4. **Make Your Changes**:
+    Make your changes and commit them with a clear message describing the feature or fix.
+
+5. **Push to Your Fork**:
+    ```bash
+    git push origin feature-or-fix-name
+    ```
+
+6. **Create a Pull Request**:
+    Go to the original repository and click the "New Pull Request" button.
+
+## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
+---
+
+### Disclaimer
+
+This script currently supports only Windows OS for the wallpaper setting functionality. If you are using a different operating system, you may need to manually set the generated image as your wallpaper.
+
+Feel free to modify and enhance the script according to your needs. Happy coding!
+
+---
+
+By Aaryaman Vyas(https://github.com/aaryamantriescode)
